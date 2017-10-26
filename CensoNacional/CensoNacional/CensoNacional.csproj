@@ -42,8 +42,17 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Censo.cs" />
+    <Compile Include="Departamento.cs" />
+    <Compile Include="ModuloAccesos.cs" />
+    <Compile Include="ModuloIngresoDatos.cs" />
+    <Compile Include="ModuloReportes.cs" />
+    <Compile Include="Nacion.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Usuario.cs" />
+    <Compile Include="Utilidades.cs" />
+    <Compile Include="Validaciones.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />

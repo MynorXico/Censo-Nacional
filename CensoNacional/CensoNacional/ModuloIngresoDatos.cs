@@ -21,7 +21,7 @@ namespace CensoNacional
                 Console.WriteLine("Sexo Femenino");
             }
             int[] arregloTemporal = new int[10];
-            for(int i = 0; i < arregloTemporal.Length; i++)
+            for (int i = 0; i < arregloTemporal.Length; i++)
             {
                 bool numValido = false;
                 string strEntrada;
@@ -33,7 +33,7 @@ namespace CensoNacional
                             Console.WriteLine("Ingrese la cantiad de habitantes de 0 a 10 años");
                         else
                         {
-                            Console.WriteLine("Ingrese la cantidad de habitantes de " + (10*i+1) + " a " + (i+1)*10 + "años");
+                            Console.WriteLine("Ingrese la cantidad de habitantes de " + (10 * i + 1) + " a " + (i + 1) * 10 + "años");
                         }
                     else // Masculino
                     {
@@ -56,13 +56,13 @@ namespace CensoNacional
                         else if (i == 9)
                             Console.WriteLine("Ingrese la cantidad de habitantes de 81 a 100 años");
                     }
-                        
+
                     Console.ResetColor();
                     strEntrada = Console.ReadLine();
                     if (Validaciones.esEntero(strEntrada))
                     {
                         entrada = int.Parse(strEntrada);
-                        if(entrada >= 0)
+                        if (entrada >= 0)
                         {
                             numValido = true;
                         }
@@ -70,7 +70,7 @@ namespace CensoNacional
                         {
                             Console.ForegroundColor = ConsoleColor.Red;
                         }
-                    }                    
+                    }
                 } while (!numValido);
                 arregloTemporal[i] = entrada;
             }
@@ -83,9 +83,82 @@ namespace CensoNacional
                 pais.Departamentos[Departamento].RangoEdadesFemenino = arregloTemporal;
             }
         }
-        public static void IngresoDatos(Departamento d, bool sexo, int edad)
+        public static void IngresoDatos(int Departamento, bool sexo, int edad, Nacion pais, int poblacionAdicional)
         {
+            if (sexo)
+            {
+                pais.Departamentos[Departamento].RangoEdadesMasculino[Utilidades.getRangoMasculino(edad)]  += poblacionAdicional;
+            }
+            else
+            {
+                pais.Departamentos[Departamento].RangoEdadesFemenino[Utilidades.getRangoFemenino(edad)] += poblacionAdicional;
+            }
+        }
 
+        public static void IngresarDatos(Nacion pais)
+        {
+            int numeroPais = pais.MostrarDepartamentos()-1;
+            int metodo = MenuIngresoDatos();
+            if(metodo == 1)
+            {
+                try
+                {
+                    IngresoPorRangosDeEdad(true, numeroPais, pais);
+                    IngresoPorRangosDeEdad(false, numeroPais, pais);
+                }
+                catch
+                {
+                    Console.WriteLine("Cometió un error al ingresar los datos. Recuerde que deben ser cantidades numéricas.");
+                }
+            }
+            else
+            {
+                bool masculino = MenuIngresoSexo() == 1;
+                int edad = IngresarPositivo("Ingrese la edad: ");
+                int poblacion = IngresarPositivo("Ingrese la población: ");
+                IngresoDatos(numeroPais, masculino, edad, pais, poblacion);
+            }
+        }
+
+        public static int MenuIngresoDatos()
+        {
+            Console.Clear();
+            Console.WriteLine(Utilidades.enmarcar("Opciones"));
+            Console.WriteLine("¿Cómo desea ingresar los datos?");
+            Console.WriteLine(" 1. Rango de edad");
+            Console.WriteLine(" 2. Ingreso de datos");
+            string strOpcion = Console.ReadLine();
+            if (strOpcion != "1" && strOpcion != "2")
+                return MenuIngresoDatos();
+            return int.Parse(strOpcion);
+        }
+        public static int MenuIngresoSexo()
+        {
+            Console.Clear();
+            Console.WriteLine(Utilidades.enmarcar("Sexo"));
+            Console.WriteLine("Seleccione el sexo de los datos a ingresar: ");
+            Console.WriteLine(" 1. Masculino");
+            Console.WriteLine(" 2. Femenino");
+            string strOpcion = Console.ReadLine();
+            if (strOpcion != "1" && strOpcion != "2")
+                return MenuIngresoDatos();
+            return int.Parse(strOpcion);
+        }
+        public static int IngresarPositivo(string m)
+        {
+            Console.Clear();
+            Console.WriteLine(Utilidades.enmarcar("Edad"));
+            Console.WriteLine(m);
+            string edad = Console.ReadLine();
+            if (!Validaciones.esEntero(edad))
+            {
+                return IngresarPositivo(m);
+            }
+            if(int.Parse(edad) >= 0)
+            {
+                return int.Parse(edad);
+            }
+            return IngresarPositivo(m);
         }
     }
 }

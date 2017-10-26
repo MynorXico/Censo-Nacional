@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace CensoNacional
 {
-    class Usuario
+    public class Usuario
     {
         public string Username;
         public string Nombre;
@@ -27,6 +27,10 @@ namespace CensoNacional
             this.PermisoReportes = permisoReportes;
             this.PermisoModificarUsuarios = permisoModificar;
             this.UsuarioBloqueado = usuarioBloqueado;
+        }
+        public Usuario()
+        {
+
         }
     }
 }
